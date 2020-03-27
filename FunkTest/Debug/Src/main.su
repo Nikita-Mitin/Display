@@ -1,0 +1,8 @@
+main.c:148:6:SystemClock_Config	96	static
+main.c:191:6:BufInit	8	static
+main.c:199:6:BufPut	0	static
+main.c:68:5:main	16	static
+main.c:209:9:BufPop	0	static
+main.c:216:6:ClearBuf	0	static
+main.c:222:9:BufFindStart	8	static
+main.c:243:6:Error_Handler	0	static

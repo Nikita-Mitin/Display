@@ -1,0 +1,6 @@
+main.c:63:9:u8x8_stm32_gpio_and_delay	8	static
+main.c:85:9:u8x8_byte_4wire_hw_spi	8	static
+main.c:351:6:SystemClock_Config	96	static
+main.c:392:9:LoadWindow	32	static
+main.c:252:5:main	24	static
+main.c:426:6:Error_Handler	0	static

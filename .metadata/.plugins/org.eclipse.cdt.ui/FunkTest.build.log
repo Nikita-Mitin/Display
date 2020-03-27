@@ -1,0 +1,24 @@
+18:05:28 **** Incremental Build of configuration Debug for project FunkTest ****
+Info: Internal Builder is used for build
+arm-atollic-eabi-gcc -c -mthumb -mcpu=cortex-m0 -std=gnu11 -D__weak=__attribute__((weak)) -D__packed=__attribute__((__packed__)) -DUSE_HAL_DRIVER -DSTM32F030x8 -I../Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -Os -ffunction-sections -fdata-sections -g -fstack-usage -Wall -specs=nano.specs -o Src\main.o ..\Src\main.c 
+..\Src\main.c: In function 'BufInit':
+..\Src\main.c:193:27: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+  buf->buffer = (uint8_t*) malloc(size);
+                           ^~~~~~
+..\Src\main.c:193:27: warning: incompatible implicit declaration of built-in function 'malloc'
+..\Src\main.c:193:27: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+arm-atollic-eabi-gcc -o FunkTest.elf Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_cortex.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_dma.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_flash.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_flash_ex.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_gpio.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_i2c.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_i2c_ex.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_pwr.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_pwr_ex.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_rcc.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_rcc_ex.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_tim.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_tim_ex.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_uart.o Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_uart_ex.o Src\gpio.o Src\main.o Src\stm32f0xx_hal_msp.o Src\stm32f0xx_it.o Src\syscalls.o Src\system_stm32f0xx.o Src\tim.o Src\usart.o startup\startup_stm32f030x8.o -mthumb -mcpu=cortex-m0 -T../STM32F030R8_FLASH.ld -specs=nosys.specs -static -Wl,-Map=FunkTest.map -Wl,--gc-sections -Wl,--defsym=malloc_getpagesize_P=0x80 -Wl,--start-group -lc -lm -Wl,--end-group -specs=nano.specs 
+C:\Program Files (x86)\Atollic\TrueSTUDIO for STM32 9.3.0\ide\jre\bin\java -jar C:\Program Files (x86)\Atollic\TrueSTUDIO for STM32 9.3.0\Tools\arm-atollic-reports.jar sizeinfo list FunkTest.elf 
+Generate build reports...
+Print size information
+   text	   data	    bss	    dec	    hex	filename
+   6512	    112	   1840	   8464	   2110	FunkTest.elf
+Print size information done
+Generate listing file
+Output sent to: FunkTest.list
+Generate listing file done
+Generate build reports done
+arm-atollic-eabi-objcopy.exe -O ihex FunkTest.elf FunkTest.hex 
+
+18:05:30 Build Finished (took 1s.732ms)
+
