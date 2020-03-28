@@ -88,7 +88,7 @@ uint8_t u8x8_byte_4wire_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
   switch (msg)
   {
   case U8X8_MSG_BYTE_SEND:
-    HAL_SPI_Transmit(&hspi2, (uint8_t *) arg_ptr, arg_int, 10000);
+    HAL_SPI_Transmit(&hspi2, (uint8_t *) arg_ptr, arg_int,100);
     break;
   case U8X8_MSG_BYTE_INIT:
     break;
@@ -108,12 +108,6 @@ uint8_t u8x8_byte_4wire_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
   }
   return 1;
 }
-
-//void draw(uint8_t pos)
-//{
-//  u8g_SetFont(&u8g, u8g_font_unifont);
-//  u8g_DrawStr(&u8g,  0, 12+pos, "Hello World!");
-//}
 
 #define logo51_width 243
 #define logo51_height 48
@@ -278,7 +272,8 @@ int main(void)
   MX_SPI1_Init();
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
-  u8g2_Setup_ssd1322_nhd_256x64_1(&u8g2, U8G2_R0, u8x8_byte_4wire_hw_spi,
+  HAL_Delay(100);
+  u8g2_Setup_ssd1322_nhd_256x64_f(&u8g2, U8G2_R0, u8x8_byte_4wire_hw_spi,
         u8x8_stm32_gpio_and_delay);
     u8g2_InitDisplay(&u8g2);
     u8g2_ClearDisplay(&u8g2);
@@ -287,55 +282,40 @@ int main(void)
 //    u8g2_ClearDisplay(&u8g2);
 //    u8g2_ClearBuffer(&u8g2);
 
-    uint32_t testFlag = 0;
+    uint8_t testFlag = 0;
+    uint16_t temp = 1;
+    char tempr[10];
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  LoadWindow(&u8g2);
-//	  u8g2_FirstPage(&u8g2);
-//	 	 do
-//	 	{
-//	 		 u8g2_DrawXBMP(&u8g2, 8, 0, logo51_width, logo51_height, &logo51_bits);
-//	 		 u8g2_SetFont(&u8g2, u8g2_font_ncenB10_te);
-//	 		 u8g2_DrawStr(&u8g2, 100, 60, "Loading . ");
-//
-//
-//	 	} while (u8g2_NextPage(&u8g2));
 
-//	 	HAL_Delay(500);
-//
-//	 	do
-//	 	{
-//	 		u8g2_DrawStr(&u8g2, 100, 60, "Loading . . ");
-//	 	} while (u8g2_NextPage(&u8g2));
-//
-//	 		      HAL_Delay(500);
-//
-//	 	do
-//	 	{
-//	 		u8g2_DrawStr(&u8g2, 100, 60, "Loading . . . ");
-//	 	} while (u8g2_NextPage(&u8g2));
-//	 	HAL_Delay(500);
-	 if(testFlag < 3){
+
+	 if(!testFlag){
 		 LoadWindow(&u8g2);
 		 testFlag++;
 	 }
 	 else{
-		 u8g2_FirstPage(&u8g2);
-		 GPIOD->ODR ^= 1<<13;
-		 do
-		{
-			 u8g2_SetFont(&u8g2, u8g2_font_ncenB10_te);
-			 u8g2_DrawStr(&u8g2, 12, 10, "Temperature");
-			 u8g2_DrawStr(&u8g2, 12, 30, "Pressure");
-			 u8g2_DrawStr(&u8g2, 12, 50, "Current");
+		 	  u8g2_ClearBuffer(&u8g2);
 
-		} while (u8g2_NextPage(&u8g2));
+		 	  u8g2_SetFont(&u8g2, u8g2_font_ncenB10_te);
+		 	  u8g2_DrawStr(&u8g2, 12, 10, "Temperature");
+		 	  u8g2_DrawStr(&u8g2, 12, 30, "Pressure");
+		 	  u8g2_DrawStr(&u8g2, 12, 50, "Current");
+		 	  u8g2_DrawStr(&u8g2, 200, 10, itoa(temp,tempr,10));
+		 	  u8g2_DrawStr(&u8g2, 200, 30, itoa(temp,tempr,10));
+		 	  u8g2_DrawStr(&u8g2, 200, 50, itoa(temp,tempr,10));
+
+		 	  u8g2_SendBuffer(&u8g2);
+
+
+		 	  temp = (temp<20) ? temp + 1 : 0;
 	 }
 	 GPIOD->ODR ^= 1<<12;
+
+
 
     /* USER CODE END WHILE */
 
@@ -390,27 +370,20 @@ void SystemClock_Config(void)
 
 
 uint8_t LoadWindow(u8g2_t *u8g2){
-	 u8g2_FirstPage(u8g2);
-	 do
-	{
-		 u8g2_DrawXBMP(u8g2, 8, 0, logo51_width, logo51_height, &logo51_bits);
-		 u8g2_SetFont(u8g2, u8g2_font_ncenB10_te);
-		 u8g2_DrawStr(u8g2, 100, 60, "Loading . ");
-	} while (u8g2_NextPage(u8g2));
+	u8g2_ClearBuffer(u8g2);
 
+	u8g2_DrawXBMP(u8g2, 8, 0, logo51_width, logo51_height, &logo51_bits);
+	u8g2_SetFont(u8g2, u8g2_font_ncenB10_te);
+	u8g2_DrawStr(u8g2, 100, 60, "Loading . ");
+	u8g2_SendBuffer(u8g2);
 	HAL_Delay(500);
 
-	do
-	{
-		u8g2_DrawStr(u8g2, 100, 60, "Loading . . ");
-	} while (u8g2_NextPage(u8g2));
+	u8g2_DrawStr(u8g2, 100, 60, "Loading . . ");
+	u8g2_SendBuffer(u8g2);
+	HAL_Delay(500);
 
-		      HAL_Delay(500);
-
-	do
-	{
-		u8g2_DrawStr(u8g2, 100, 60, "Loading . . . ");
-	} while (u8g2_NextPage(u8g2));
+	u8g2_DrawStr(u8g2, 100, 60, "Loading . . . ");
+	u8g2_SendBuffer(u8g2);
 	HAL_Delay(500);
 	return 0;
 }
